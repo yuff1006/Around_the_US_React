@@ -1,4 +1,4 @@
-function Main() {
+function Main(props) {
   return (
     <main className="content">
       <section className="profile">
@@ -9,6 +9,7 @@ function Main() {
             aria-label="Edit Profile Picture"
             className="profile__pic-edit"
             id="profile-pic-edit"
+            onClick={props.onEditAvatarClick}
           ></button>
         </div>
         <div className="profile__name-and-icon">
@@ -18,6 +19,7 @@ function Main() {
             type="button"
             className="profile__edit-icon"
             id="edit-icon"
+            onClick={props.onEditProfileClick}
           ></button>
         </div>
         <p className="profile__title"></p>
@@ -26,6 +28,7 @@ function Main() {
           type="button"
           className="profile__add-icon"
           id="add-icon"
+          onClick={props.onAddPlaceClick}
         ></button>
       </section>
       <section className="cards">
