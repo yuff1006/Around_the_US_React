@@ -1,9 +1,27 @@
+import { api } from "../utils/api";
+import React from "react";
 function Main(props) {
+  const [userName, setUserName] = React.useState("");
+  const [userDescription, setUserDescription] = React.useState("");
+  const [userAvatar, setUserAvatar] = React.useState("");
+
+  React.useEffect(() => {
+    api.initialize().then(([user, cards]) => {
+      setUserName(user.name);
+      setUserDescription(user.about);
+      setUserAvatar(user.avatar);
+    });
+  });
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__pic-container">
-          <img alt=" " className="profile__pic" src=" " />
+          <div
+            alt={`${userName}'s headshot`}
+            className="profile__pic"
+            src={userAvatar}
+            // style={{ backgroundImage: `url(${userAvatar})` }}
+          ></div>
           <button
             type="button"
             aria-label="Edit Profile Picture"
@@ -13,7 +31,7 @@ function Main(props) {
           ></button>
         </div>
         <div className="profile__name-and-icon">
-          <h1 className="profile__name"></h1>
+          <h1 className="profile__name">{userName}</h1>
           <button
             aria-label="Edit"
             type="button"
@@ -22,7 +40,7 @@ function Main(props) {
             onClick={props.onEditProfileClick}
           ></button>
         </div>
-        <p className="profile__title"></p>
+        <p className="profile__title">{userDescription}</p>
         <button
           aria-label="Add"
           type="button"
