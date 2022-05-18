@@ -16,12 +16,12 @@ function Main(props) {
     <main className="content">
       <section className="profile">
         <div className="profile__pic-container">
-          <div
+          <img
             alt={`${userName}'s headshot`}
             className="profile__pic"
             src={userAvatar}
             // style={{ backgroundImage: `url(${userAvatar})` }}
-          ></div>
+          />
           <button
             type="button"
             aria-label="Edit Profile Picture"
