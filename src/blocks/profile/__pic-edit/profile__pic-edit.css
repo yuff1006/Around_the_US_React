@@ -14,23 +14,6 @@
   border-radius: 100%;
   opacity: 0;
   transition: opacity 0.3s linear;
-}
-
-.profile__pic-edit::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 100%;
-  transition: background-color 0.3s linear;
-}
-
-.profile__pic-edit:hover::after {
   background-color: rgba(0, 0, 0, 0.2);
 }
 

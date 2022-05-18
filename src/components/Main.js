@@ -4,14 +4,17 @@ function Main(props) {
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUserAvatar] = React.useState("");
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.initialize().then(([user, cards]) => {
+    api.initialize().then(([user, cardData]) => {
       setUserName(user.name);
       setUserDescription(user.about);
       setUserAvatar(user.avatar);
+      setCards([...cards, cardData]);
     });
-  });
+  }, []);
+
   return (
     <main className="content">
       <section className="profile">
@@ -20,7 +23,6 @@ function Main(props) {
             alt={`${userName}'s headshot`}
             className="profile__pic"
             src={userAvatar}
-            // style={{ backgroundImage: `url(${userAvatar})` }}
           />
           <button
             type="button"
@@ -50,7 +52,31 @@ function Main(props) {
         ></button>
       </section>
       <section className="cards">
-        <ul className="cards__container"></ul>
+        <ul className="cards__container">
+          {cards.forEach((card) => {
+            return (
+              <li className="card">
+                <button
+                  type="button"
+                  class="card__trash"
+                  aria-label="Delete"
+                ></button>
+                <img className="card__img" alt={card.name} src={card.link} />
+                <div className="card__handle">
+                  <h2 className="card__place">{card.name}</h2>
+                  <div className="card__like-container">
+                    <button
+                      aria-label="Like"
+                      type="button"
+                      className="card__heart"
+                    ></button>
+                    <p className="card__like-count"></p>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </section>
     </main>
   );

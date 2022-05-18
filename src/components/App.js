@@ -22,7 +22,7 @@ function App() {
     return () => {
       document.removeEventListener("keyup", handleEscClose);
     };
-  });
+  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen]);
   function closeAllPopups() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
@@ -53,7 +53,7 @@ function App() {
         <PopupWithForm
           name="avatar"
           title="Change Profile Picture"
-          open={isEditAvatarPopupOpen ? "popup_open" : ""}
+          isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           buttonText="Save"
         >
@@ -73,7 +73,7 @@ function App() {
         <PopupWithForm
           name="profile"
           title="Edit Profile"
-          open={isEditProfilePopupOpen ? "popup_open" : ""}
+          isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           buttonText="Save"
         >
@@ -101,7 +101,7 @@ function App() {
         <PopupWithForm
           name="place"
           title="New place"
-          open={isAddPlacePopupOpen ? "popup_open" : ""}
+          isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           buttonText="Create"
         >
