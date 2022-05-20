@@ -1,23 +1,29 @@
+import React, { useState, useEffect } from "react";
 import { api } from "../utils/api";
-import React from "react";
 import Card from "./Card";
+
 function Main({
   onEditAvatarClick,
   onAddPlaceClick,
   onEditProfileClick,
   onCardClick,
 }) {
-  const [userName, setUserName] = React.useState("");
-  const [userDescription, setUserDescription] = React.useState("");
-  const [userAvatar, setUserAvatar] = React.useState("");
-  const [cards, setCards] = React.useState([]);
-  React.useEffect(() => {
-    api.initialize().then(([user, cardData]) => {
-      setUserName(user.name);
-      setUserDescription(user.about);
-      setUserAvatar(user.avatar);
-      setCards(cardData);
-    });
+  const [userInfo, setUserInfo] = useState({});
+  const [cards, setCards] = useState([]);
+  useEffect(() => {
+    api
+      .initialize()
+      .then(([user, cardData]) => {
+        setUserInfo({
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+        });
+        setCards(cardData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -25,9 +31,9 @@ function Main({
       <section className="profile">
         <div className="profile__pic-container">
           <img
-            alt={`${userName}'s headshot`}
+            alt={`${userInfo.name}'s headshot`}
             className="profile__pic"
-            src={userAvatar}
+            src={userInfo.avatar}
           />
           <button
             type="button"
@@ -35,26 +41,26 @@ function Main({
             className="profile__pic-edit"
             id="profile-pic-edit"
             onClick={onEditAvatarClick}
-          ></button>
+          />
         </div>
         <div className="profile__name-and-icon">
-          <h1 className="profile__name">{userName}</h1>
+          <h1 className="profile__name">{userInfo.name}</h1>
           <button
             aria-label="Edit"
             type="button"
             className="profile__edit-icon"
             id="edit-icon"
             onClick={onEditProfileClick}
-          ></button>
+          />
         </div>
-        <p className="profile__title">{userDescription}</p>
+        <p className="profile__title">{userInfo.about}</p>
         <button
           aria-label="Add"
           type="button"
           className="profile__add-icon"
           id="add-icon"
           onClick={onAddPlaceClick}
-        ></button>
+        />
       </section>
       <section className="cards">
         <ul className="cards__container">

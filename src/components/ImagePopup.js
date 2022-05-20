@@ -11,7 +11,7 @@ function ImagePopup({ name, isOpen, onClose, card }) {
           type="button"
           className="popup__close popup__close_picture"
           onClick={onClose}
-        ></button>
+        />
         <h2 className="popup__popup-caption">{card.name}</h2>
       </div>
     </div>

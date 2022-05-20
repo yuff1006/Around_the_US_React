@@ -1,20 +1,18 @@
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
-import Card from "./Card";
 import PopupWithForm from "./PopupWithForm";
-import React from "react";
 
 function App() {
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
-    React.useState(false);
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-  const [isPicturePopupOpen, setPicturePopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState("");
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+  const [isPicturePopupOpen, setPicturePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({});
 
-  React.useEffect(() => {
+  useEffect(() => {
     function handleEscClose(evt) {
       if (evt.key === "Escape") {
         closeAllPopups();
@@ -31,7 +29,7 @@ function App() {
     setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
     setPicturePopupOpen(false);
-    setSelectedCard("");
+    setSelectedCard({});
   }
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);

@@ -4,11 +4,7 @@ function Card({ cardData, onCardClick }) {
   }
   return (
     <li className="card">
-      <button
-        type="button"
-        className="card__trash"
-        aria-label="Delete"
-      ></button>
+      <button type="button" className="card__trash" aria-label="Delete" />
       <img
         className="card__img"
         alt={cardData.name}
@@ -18,11 +14,7 @@ function Card({ cardData, onCardClick }) {
       <div className="card__handle">
         <h2 className="card__place">{cardData.name}</h2>
         <div className="card__like-container">
-          <button
-            aria-label="Like"
-            type="button"
-            className="card__heart"
-          ></button>
+          <button aria-label="Like" type="button" className="card__heart" />
           <p className="card__like-count">{cardData.likeCount}</p>
         </div>
       </div>
