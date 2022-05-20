@@ -1,17 +1,22 @@
 import { api } from "../utils/api";
 import React from "react";
-function Main(props) {
+import Card from "./Card";
+function Main({
+  onEditAvatarClick,
+  onAddPlaceClick,
+  onEditProfileClick,
+  onCardClick,
+}) {
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUserAvatar] = React.useState("");
   const [cards, setCards] = React.useState([]);
-
   React.useEffect(() => {
     api.initialize().then(([user, cardData]) => {
       setUserName(user.name);
       setUserDescription(user.about);
       setUserAvatar(user.avatar);
-      setCards([...cards, cardData]);
+      setCards(cardData);
     });
   }, []);
 
@@ -29,7 +34,7 @@ function Main(props) {
             aria-label="Edit Profile Picture"
             className="profile__pic-edit"
             id="profile-pic-edit"
-            onClick={props.onEditAvatarClick}
+            onClick={onEditAvatarClick}
           ></button>
         </div>
         <div className="profile__name-and-icon">
@@ -39,7 +44,7 @@ function Main(props) {
             type="button"
             className="profile__edit-icon"
             id="edit-icon"
-            onClick={props.onEditProfileClick}
+            onClick={onEditProfileClick}
           ></button>
         </div>
         <p className="profile__title">{userDescription}</p>
@@ -48,32 +53,14 @@ function Main(props) {
           type="button"
           className="profile__add-icon"
           id="add-icon"
-          onClick={props.onAddPlaceClick}
+          onClick={onAddPlaceClick}
         ></button>
       </section>
       <section className="cards">
         <ul className="cards__container">
-          {cards.forEach((card) => {
+          {cards.map((card) => {
             return (
-              <li className="card">
-                <button
-                  type="button"
-                  class="card__trash"
-                  aria-label="Delete"
-                ></button>
-                <img className="card__img" alt={card.name} src={card.link} />
-                <div className="card__handle">
-                  <h2 className="card__place">{card.name}</h2>
-                  <div className="card__like-container">
-                    <button
-                      aria-label="Like"
-                      type="button"
-                      className="card__heart"
-                    ></button>
-                    <p className="card__like-count"></p>
-                  </div>
-                </div>
-              </li>
+              <Card cardData={card} onCardClick={onCardClick} key={card._id} />
             );
           })}
         </ul>

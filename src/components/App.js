@@ -11,6 +11,8 @@ function App() {
     React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+  const [isPicturePopupOpen, setPicturePopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState("");
 
   React.useEffect(() => {
     function handleEscClose(evt) {
@@ -22,11 +24,14 @@ function App() {
     return () => {
       document.removeEventListener("keyup", handleEscClose);
     };
-  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen]);
+  }, []);
+
   function closeAllPopups() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
+    setPicturePopupOpen(false);
+    setSelectedCard("");
   }
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
@@ -36,8 +41,10 @@ function App() {
   }
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
-
-    // useState tells react to store the variable outside of the function. that's how it can save the values between function calls. Normally a variable lasts as long as the function. setters that are returned by useState calls tell react to use the new value on the next render. If you access the variable in the same function/in the same render, it will still have the old value.
+  }
+  function handleCardClick(cardData) {
+    setSelectedCard(cardData);
+    setPicturePopupOpen(true);
   }
   return (
     <div className="App">
@@ -47,9 +54,15 @@ function App() {
           onEditProfileClick={handleEditProfileClick}
           onAddPlaceClick={handleAddPlaceClick}
           onEditAvatarClick={handleEditAvatarClick}
+          onCardClick={handleCardClick}
         />
         <Footer />
-        <ImagePopup />
+        <ImagePopup
+          name="picture"
+          card={selectedCard}
+          onClose={closeAllPopups}
+          isOpen={isPicturePopupOpen}
+        />
         <PopupWithForm
           name="avatar"
           title="Change Profile Picture"
@@ -126,7 +139,6 @@ function App() {
           />
           <span className="popup__error" id="popup-url-error"></span>
         </PopupWithForm>
-        <Card />
       </div>
     </div>
   );

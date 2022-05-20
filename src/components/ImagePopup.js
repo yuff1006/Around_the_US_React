@@ -1,15 +1,18 @@
-function ImagePopup() {
+function ImagePopup({ name, isOpen, onClose, card }) {
   return (
-    <div className="popup" id="picture-popup">
+    <div
+      className={`popup popup_type_${name} ${isOpen ? "popup_open" : ""}`}
+      onClick={onClose}
+    >
       <div className="popup__close-and-picture">
-        <img alt=" " src=" " className="popup__picture" />
+        <img alt={card.name} src={`${card.link}`} className="popup__picture" />
         <button
           aria-label="Close"
           type="button"
           className="popup__close popup__close_picture"
-          id="picture-popup-close"
+          onClick={onClose}
         ></button>
-        <h2 className="popup__popup-caption"></h2>
+        <h2 className="popup__popup-caption">{card.name}</h2>
       </div>
     </div>
   );
