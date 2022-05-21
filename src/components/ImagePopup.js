@@ -13,7 +13,7 @@ function ImagePopup({ name, isOpen, onClose, card }) {
       onClick={handleOverLayClose}
     >
       <div className="popup__close-and-picture">
-        <img alt={card.name} src={`${card.link}`} className="popup__picture" />
+        <img alt={card.name} src={card.link} className="popup__picture" />
         <button
           aria-label="Close"
           type="button"
