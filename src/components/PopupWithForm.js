@@ -1,8 +1,16 @@
 function PopupWithForm({ name, isOpen, onClose, title, children, buttonText }) {
+  function handleOverLayClose(evt) {
+    if (
+      evt.target.classList.contains("popup") ||
+      evt.target.classList.contains("popup__close")
+    ) {
+      onClose();
+    }
+  }
   return (
     <div
       className={`popup popup_type_${name} ${isOpen ? "popup_open" : ""}`}
-      onClick={onClose}
+      onClick={handleOverLayClose}
     >
       <div className="popup__container">
         <h2 className="popup__title">{title}</h2>
@@ -12,12 +20,7 @@ function PopupWithForm({ name, isOpen, onClose, title, children, buttonText }) {
             {buttonText}
           </button>
         </form>
-        <button
-          aria-label="Close"
-          type="button"
-          className="popup__close"
-          onClick={onClose}
-        />
+        <button aria-label="Close" type="button" className="popup__close" />
       </div>
     </div>
   );
