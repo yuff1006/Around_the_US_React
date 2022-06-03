@@ -1,4 +1,4 @@
-function Card({ cardData, onCardClick, deleteButton }) {
+function Card({ cardData, onCardClick, deleteButton, heartButton }) {
   function handleClick() {
     onCardClick(cardData);
   }
@@ -14,7 +14,7 @@ function Card({ cardData, onCardClick, deleteButton }) {
       <div className="card__handle">
         <h2 className="card__place">{cardData.name}</h2>
         <div className="card__like-container">
-          <button aria-label="Like" type="button" className="card__heart" />
+          <button aria-label="Like" type="button" className={heartButton} />
           <p className="card__like-count">{cardData.likeCount}</p>
         </div>
       </div>
