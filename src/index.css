@@ -55,3 +55,5 @@
 @import url("./blocks/popup/__info/_type/popup__info_type_error.css");
 @import url("./blocks/popup/__error/_visible/popup__error_visible.css");
 @import url("./blocks/popup/__title/_no-input/popup__title_no-input.css");
+/* card modifier */
+@import url("./blocks/card/__trash/_hidden/card__trash_hidden.css");

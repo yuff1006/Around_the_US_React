@@ -1,10 +1,10 @@
-function Card({ cardData, onCardClick }) {
+function Card({ cardData, onCardClick, deleteButton }) {
   function handleClick() {
     onCardClick(cardData);
   }
   return (
     <li className="card">
-      <button type="button" className="card__trash" aria-label="Delete" />
+      <button type="button" className={deleteButton} aria-label="Delete" />
       <img
         className="card__img"
         alt={cardData.name}

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { api } from "../utils/api";
 import Card from "./Card";
+import { CreateUserContext } from "../contexts/CreateUserContext";
 
 function Main({
   onEditAvatarClick,
@@ -10,16 +11,21 @@ function Main({
 }) {
   const [userInfo, setUserInfo] = useState({});
   const [cards, setCards] = useState([]);
+  const currentUser = useContext(CreateUserContext);
+
+  useEffect(() => {
+    setUserInfo({
+      name: currentUser.name,
+      about: currentUser.about,
+      avatar: currentUser.avatar,
+    });
+  }, [currentUser]);
+
   useEffect(() => {
     api
-      .initialize()
-      .then(([user, cardData]) => {
-        setUserInfo({
-          name: user.name,
-          about: user.about,
-          avatar: user.avatar,
-        });
-        setCards(cardData);
+      .getInitialCards()
+      .then((res) => {
+        setCards(res);
       })
       .catch((err) => {
         console.log(err);
@@ -65,8 +71,17 @@ function Main({
       <section className="cards">
         <ul className="cards__container">
           {cards.map((card) => {
+            const isOwn = card.owner._id === currentUser._id;
+            const cardDeleteButtonClassName = isOwn
+              ? "card__trash"
+              : "card__trash card__trash_hidden";
             return (
-              <Card cardData={card} onCardClick={onCardClick} key={card._id} />
+              <Card
+                cardData={card}
+                onCardClick={onCardClick}
+                key={card._id}
+                deleteButton={cardDeleteButtonClassName}
+              />
             );
           })}
         </ul>
