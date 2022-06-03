@@ -45,12 +45,12 @@ class Api {
   deleteCard(cardId) {
     return this._handleFetchResponse(`/cards/${cardId}`, "DELETE");
   }
-
-  addLike(cardId) {
-    return this._handleFetchResponse(`/cards/likes/${cardId}`, "PUT");
-  }
-  removeLike(cardId) {
-    return this._handleFetchResponse(`/cards/likes/${cardId}`, "DELETE");
+  changeLikeCardStatus(cardId, isLiked) {
+    if (isLiked) {
+      return this._handleFetchResponse(`/cards/likes/${cardId}`, "DELETE");
+    } else {
+      return this._handleFetchResponse(`/cards/likes/${cardId}`, "PUT");
+    }
   }
   editProfilePic(avatarLink) {
     const bodyContent = JSON.stringify({
