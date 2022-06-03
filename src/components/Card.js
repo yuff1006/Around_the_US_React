@@ -4,13 +4,19 @@ function Card({
   deleteButton,
   heartButton,
   onCardLike,
+  onCardDelete,
 }) {
   function handleClick() {
     onCardClick(cardData);
   }
   return (
     <li className="card">
-      <button type="button" className={deleteButton} aria-label="Delete" />
+      <button
+        type="button"
+        className={deleteButton}
+        onClick={onCardDelete}
+        aria-label="Delete"
+      />
       <img
         className="card__img"
         alt={cardData.name}

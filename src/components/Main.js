@@ -34,14 +34,32 @@ function Main({
 
   function handleLikeClick(card) {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
-    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
-      // loop over all the currentCards stored in the state and find the card that has been liked/disliked and change the data of that card
-      setCards((state) =>
-        state.map((currentCard) =>
-          currentCard._id === card._id ? newCard : currentCard
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        // loop over all the currentCards stored in the state and find the card that has been liked/disliked and change the data of that card
+        setCards((state) =>
+          state.map((currentCard) =>
+            currentCard._id === card._id ? newCard : currentCard
+          )
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleCardDelete(card) {
+    api
+      .deleteCard(card._id)
+      .then(() =>
+        setCards((state) =>
+          state.filter((currentCard) => currentCard._id !== card._id)
         )
-      );
-    });
+      )
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
@@ -101,6 +119,7 @@ function Main({
                 deleteButton={cardDeleteButtonClassName}
                 heartButton={cardHeartButtonClassName}
                 onCardLike={() => handleLikeClick(card)}
+                onCardDelete={() => handleCardDelete(card)}
               />
             );
           })}
