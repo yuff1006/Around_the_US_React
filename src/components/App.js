@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import { api } from "../utils/api";
 import { CreateUserContext } from "../contexts/CreateUserContext";
 
@@ -58,6 +59,19 @@ function App() {
     setSelectedCard(cardData);
     setPicturePopupOpen(true);
   }
+  function handleUpdateUser(inputValues) {
+    api
+      .editUserProfile(inputValues)
+      .then((updatedUserInfo) => {
+        setCurrentUser(updatedUserInfo);
+      })
+      .then(() => {
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <div className="App">
       <div className="page">
@@ -76,29 +90,14 @@ function App() {
             onClose={closeAllPopups}
             isOpen={isPicturePopupOpen}
           />
-          <PopupWithForm
-            name="avatar"
-            title="Change Profile Picture"
+          <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
-            buttonText="Save"
-          >
-            <input
-              className="popup__info"
-              id="popup-profile-pic-url"
-              placeholder="https://somewebsite.com/someimage.jpg"
-              required
-              type="url"
-              name="avatar"
-            />
-            <span
-              className="popup__error"
-              id="popup-profile-pic-url-error"
-            ></span>
-          </PopupWithForm>
+          />
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
           />
           <PopupWithForm
             name="place"
