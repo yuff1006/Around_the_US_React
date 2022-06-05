@@ -4,6 +4,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup";
 import { api } from "../utils/api";
 import { CreateUserContext } from "../contexts/CreateUserContext";
 
@@ -95,34 +96,10 @@ function App() {
               id="popup-profile-pic-url-error"
             ></span>
           </PopupWithForm>
-          <PopupWithForm
-            name="profile"
-            title="Edit Profile"
+          <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
-            buttonText="Save"
-          >
-            <input
-              type="text"
-              className="popup__info"
-              id="popup-name"
-              required
-              minLength="2"
-              maxLength="40"
-              name="name"
-            />
-            <span className="popup__error" id="popup-name-error"></span>
-            <input
-              type="text"
-              className="popup__info"
-              id="popup-title"
-              required
-              minLength="2"
-              maxLength="200"
-              name="about"
-            />
-            <span className="popup__error" id="popup-title-error"></span>
-          </PopupWithForm>
+          />
           <PopupWithForm
             name="place"
             title="New place"
