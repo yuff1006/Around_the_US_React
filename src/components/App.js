@@ -72,6 +72,19 @@ function App() {
         console.log(err);
       });
   }
+  function handleUpdateAvatar(avatar) {
+    api
+      .editProfilePic(avatar)
+      .then((updatedInfo) => {
+        setCurrentUser(updatedInfo);
+      })
+      .then(() => {
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <div className="App">
       <div className="page">
@@ -93,6 +106,7 @@ function App() {
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
           />
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
