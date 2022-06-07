@@ -3,11 +3,12 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
-import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import { api } from "../utils/api";
 import { CreateUserContext } from "../contexts/CreateUserContext";
+import { CreateCardsContext } from "../contexts/CreateCardsContext";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -16,6 +17,7 @@ function App() {
   const [isPicturePopupOpen, setPicturePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     api
@@ -37,6 +39,16 @@ function App() {
     return () => {
       document.removeEventListener("keyup", handleEscClose);
     };
+  }, []);
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   function closeAllPopups() {
@@ -85,17 +97,63 @@ function App() {
         console.log(err);
       });
   }
+  function handleLikeClick(card) {
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        // loop over all the currentCards stored in the state and find the card that has been liked/disliked and change the data of that card
+        setCards((state) =>
+          state.map((currentCard) =>
+            currentCard._id === card._id ? newCard : currentCard
+          )
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleCardDelete(card) {
+    api
+      .deleteCard(card._id)
+      .then(() =>
+        setCards((state) =>
+          state.filter((currentCard) => currentCard._id !== card._id)
+        )
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function handleAddPlaceSubmit(card) {
+    api
+      .addNewCard(card)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+      })
+      .then(() => {
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <div className="App">
       <div className="page">
         <CreateUserContext.Provider value={currentUser}>
           <Header />
-          <Main
-            onEditProfileClick={handleEditProfileClick}
-            onAddPlaceClick={handleAddPlaceClick}
-            onEditAvatarClick={handleEditAvatarClick}
-            onCardClick={handleCardClick}
-          />
+          <CreateCardsContext.Provider value={cards}>
+            <Main
+              onEditProfileClick={handleEditProfileClick}
+              onAddPlaceClick={handleAddPlaceClick}
+              onEditAvatarClick={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleLikeClick}
+              onCardDelete={handleCardDelete}
+            />
+          </CreateCardsContext.Provider>
           <Footer />
           <ImagePopup
             name="picture"
@@ -113,34 +171,11 @@ function App() {
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
           />
-          <PopupWithForm
-            name="place"
-            title="New place"
+          <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-            buttonText="Create"
-          >
-            <input
-              type="text"
-              className="popup__info"
-              id="popup-place"
-              placeholder="Title"
-              required
-              minLength="1"
-              maxLength="30"
-              name="name"
-            />
-            <span className="popup__error" id="popup-place-error"></span>
-            <input
-              className="popup__info"
-              id="popup-url"
-              placeholder="Image Link"
-              required
-              type="url"
-              name="link"
-            />
-            <span className="popup__error" id="popup-url-error"></span>
-          </PopupWithForm>
+            onAddPlaceSubmit={handleAddPlaceSubmit}
+          />
         </CreateUserContext.Provider>
       </div>
     </div>

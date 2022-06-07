@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
-import { api } from "../utils/api";
 import Card from "./Card";
 import { CreateUserContext } from "../contexts/CreateUserContext";
+import { CreateCardsContext } from "../contexts/CreateCardsContext";
 
 function Main({
   onEditAvatarClick,
   onAddPlaceClick,
   onEditProfileClick,
   onCardClick,
+  onCardLike,
+  onCardDelete,
 }) {
   const [userInfo, setUserInfo] = useState({});
-  const [cards, setCards] = useState([]);
+
   const currentUser = useContext(CreateUserContext);
+  const cards = useContext(CreateCardsContext);
 
   useEffect(() => {
     setUserInfo({
@@ -20,47 +23,6 @@ function Main({
       avatar: currentUser.avatar,
     });
   }, [currentUser]);
-
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  function handleLikeClick(card) {
-    const isLiked = card.likes.some((user) => user._id === currentUser._id);
-    api
-      .changeLikeCardStatus(card._id, isLiked)
-      .then((newCard) => {
-        // loop over all the currentCards stored in the state and find the card that has been liked/disliked and change the data of that card
-        setCards((state) =>
-          state.map((currentCard) =>
-            currentCard._id === card._id ? newCard : currentCard
-          )
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function handleCardDelete(card) {
-    api
-      .deleteCard(card._id)
-      .then(() =>
-        setCards((state) =>
-          state.filter((currentCard) => currentCard._id !== card._id)
-        )
-      )
-      .catch((err) => {
-        console.log(err);
-      });
-  }
 
   return (
     <main className="content">
@@ -118,8 +80,12 @@ function Main({
                 key={card._id}
                 deleteButton={cardDeleteButtonClassName}
                 heartButton={cardHeartButtonClassName}
-                onCardLike={() => handleLikeClick(card)}
-                onCardDelete={() => handleCardDelete(card)}
+                onCardLike={() => {
+                  onCardLike(card);
+                }}
+                onCardDelete={() => {
+                  onCardDelete(card);
+                }}
               />
             );
           })}
