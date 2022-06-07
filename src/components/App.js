@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -6,18 +6,25 @@ import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import DeleteCardConfirmationPopup from "./DeleteCardConfirmationPopup";
 import { api } from "../utils/api";
 import { CreateUserContext } from "../contexts/CreateUserContext";
 import { CreateCardsContext } from "../contexts/CreateCardsContext";
+import { CreateDeletedCardContext } from "../contexts/CreateDeletedCardContext";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+  const [
+    isDeleteCardConfirmationPopupOpen,
+    setDeleteCardConfirmationPopupOpen,
+  ] = useState(false);
   const [isPicturePopupOpen, setPicturePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [deletedCard, setDeletedCard] = useState({});
 
   useEffect(() => {
     api
@@ -56,6 +63,7 @@ function App() {
     setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
     setPicturePopupOpen(false);
+    setDeleteCardConfirmationPopupOpen(false);
     setSelectedCard({});
   }
   function handleEditProfileClick() {
@@ -114,6 +122,11 @@ function App() {
       });
   }
 
+  function handleConfirmation(deletedCard) {
+    setDeleteCardConfirmationPopupOpen(true);
+    setDeletedCard(deletedCard);
+  }
+
   function handleCardDelete(card) {
     api
       .deleteCard(card._id)
@@ -122,6 +135,9 @@ function App() {
           state.filter((currentCard) => currentCard._id !== card._id)
         )
       )
+      .then(() => {
+        closeAllPopups();
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -151,7 +167,7 @@ function App() {
               onEditAvatarClick={handleEditAvatarClick}
               onCardClick={handleCardClick}
               onCardLike={handleLikeClick}
-              onCardDelete={handleCardDelete}
+              onCardDelete={handleConfirmation}
             />
           </CreateCardsContext.Provider>
           <Footer />
@@ -176,6 +192,13 @@ function App() {
             onClose={closeAllPopups}
             onAddPlaceSubmit={handleAddPlaceSubmit}
           />
+          <CreateDeletedCardContext.Provider value={deletedCard}>
+            <DeleteCardConfirmationPopup
+              isOpen={isDeleteCardConfirmationPopupOpen}
+              onClose={closeAllPopups}
+              onConfirmation={handleCardDelete}
+            />
+          </CreateDeletedCardContext.Provider>
         </CreateUserContext.Provider>
       </div>
     </div>

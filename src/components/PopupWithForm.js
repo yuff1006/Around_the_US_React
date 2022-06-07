@@ -21,7 +21,13 @@ function PopupWithForm({
       onClick={handleOverLayClose}
     >
       <div className="popup__container">
-        <h2 className="popup__title">{title}</h2>
+        <h2
+          className={`popup__title ${
+            name === "delete-confirmation" ? "popup__title_no-input" : ""
+          }`}
+        >
+          {title}
+        </h2>
         <form className="popup__form" name={name} onSubmit={onSubmit}>
           {children}
           <button type="submit" className="popup__button" onClick={onSubmit}>
