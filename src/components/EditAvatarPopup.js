@@ -2,7 +2,7 @@ import PopupWithForm from "./PopupWithForm";
 import { useState, useContext, useRef, useEffect } from "react";
 import { CreateUserContext } from "../contexts/CreateUserContext";
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonState }) {
   const [avatar, setAvatar] = useState("");
   const currentUser = useContext(CreateUserContext);
   const avatarRef = useRef(avatar);
@@ -26,7 +26,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       title="Change Profile Picture"
       isOpen={isOpen}
       onClose={onClose}
-      buttonText="Save"
+      buttonText={buttonState === false ? "Save" : "Saving..."}
       onSubmit={handleSubmit}
     >
       <input

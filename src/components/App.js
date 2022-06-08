@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -7,6 +7,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import DeleteCardConfirmationPopup from "./DeleteCardConfirmationPopup";
+import renderLoading from "../utils/renderLoading";
 import { api } from "../utils/api";
 import { CreateUserContext } from "../contexts/CreateUserContext";
 import { CreateCardsContext } from "../contexts/CreateCardsContext";
@@ -25,6 +26,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [deletedCard, setDeletedCard] = useState({});
+  const [isButtonStateLoading, setButtonStateLoading] = useState(false);
 
   useEffect(() => {
     api
@@ -80,6 +82,7 @@ function App() {
     setPicturePopupOpen(true);
   }
   function handleUpdateUser(inputValues) {
+    setButtonStateLoading(true);
     api
       .editUserProfile(inputValues)
       .then((updatedUserInfo) => {
@@ -90,9 +93,13 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setButtonStateLoading(false);
       });
   }
   function handleUpdateAvatar(avatar) {
+    setButtonStateLoading(true);
     api
       .editProfilePic(avatar)
       .then((updatedInfo) => {
@@ -103,10 +110,14 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setButtonStateLoading(false);
       });
   }
   function handleLikeClick(card) {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    setButtonStateLoading(true);
     api
       .changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
@@ -119,6 +130,9 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setButtonStateLoading(false);
       });
   }
 
@@ -128,6 +142,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
+    setButtonStateLoading(true);
     api
       .deleteCard(card._id)
       .then(() =>
@@ -140,9 +155,13 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setButtonStateLoading(false);
       });
   }
   function handleAddPlaceSubmit(card) {
+    setButtonStateLoading(true);
     api
       .addNewCard(card)
       .then((newCard) => {
@@ -153,6 +172,9 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setButtonStateLoading(false);
       });
   }
   return (
@@ -181,22 +203,26 @@ function App() {
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
+            buttonState={isButtonStateLoading}
           />
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
+            buttonState={isButtonStateLoading}
           />
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlaceSubmit={handleAddPlaceSubmit}
+            buttonState={isButtonStateLoading}
           />
           <CreateDeletedCardContext.Provider value={deletedCard}>
             <DeleteCardConfirmationPopup
               isOpen={isDeleteCardConfirmationPopupOpen}
               onClose={closeAllPopups}
               onConfirmation={handleCardDelete}
+              buttonState={isButtonStateLoading}
             />
           </CreateDeletedCardContext.Provider>
         </CreateUserContext.Provider>
