@@ -1,6 +1,4 @@
-import { useRef } from "react";
-import FormVaidator from "../utils/FormValidator";
-import { settings } from "../utils/constants";
+import { useRef, useState, useEffect } from "react";
 
 function PopupWithForm({
   name,
@@ -12,12 +10,12 @@ function PopupWithForm({
   onSubmit,
 }) {
   const formRef = useRef();
-  // console.log(formRef);
-  // const editProfilePopupFormValidator = new FormVaidator(
-  //   settings,
-  //   formRef.current
-  // );
-  // editProfilePopupFormValidator.enableValidator();
+  const [isFormValid, setFormValid] = useState(false);
+
+  useEffect(() => {
+    setFormValid(formRef.current.checkValidity());
+  }, [children]);
+
   function handleOverLayClose(evt) {
     if (
       evt.target.classList.contains("popup") ||
@@ -46,7 +44,12 @@ function PopupWithForm({
           ref={formRef}
         >
           {children}
-          <button type="submit" className="popup__button" onClick={onSubmit}>
+          <button
+            type="submit"
+            className="popup__button"
+            onClick={onSubmit}
+            disabled={!isFormValid}
+          >
             {buttonText}
           </button>
         </form>

@@ -5,7 +5,8 @@ import { CreateUserContext } from "../contexts/CreateUserContext";
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonState }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-
+  const [isNameValid, setNameValid] = useState(false);
+  const [isAboutValid, setAboutValid] = useState(false);
   const currentUser = useContext(CreateUserContext);
 
   useEffect(() => {
@@ -15,16 +16,31 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonState }) {
 
   function handleNameChange(e) {
     setName(e.target.value);
+    if (e.target.checkValidity()) {
+      setNameValid(true);
+    } else {
+      setNameValid(false);
+    }
   }
   function handleDescriptionChange(e) {
     setDescription(e.target.value);
+    if (e.target.checkValidity()) {
+      setAboutValid(true);
+    } else {
+      setAboutValid(false);
+    }
   }
   function handleSubmit(e) {
     e.preventDefault();
-    onUpdateUser({
-      name,
-      about: description,
-    });
+    if (e.target.checkValidity()) {
+      console.log(e.target.checkValidity());
+      setNameValid(true);
+      setAboutValid(true);
+      onUpdateUser({
+        name,
+        about: description,
+      });
+    }
   }
   return (
     <PopupWithForm
