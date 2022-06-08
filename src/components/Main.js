@@ -63,23 +63,11 @@ function Main({
       <section className="cards">
         <ul className="cards__container">
           {cards.map((card) => {
-            const isOwn = card.owner._id === currentUser._id;
-            const cardDeleteButtonClassName = isOwn
-              ? "card__trash"
-              : "card__trash card__trash_hidden";
-            const isLiked = card.likes.some(
-              (user) => user._id === currentUser._id
-            );
-            const cardHeartButtonClassName = isLiked
-              ? "card__heart card__heart_active"
-              : "card__heart";
             return (
               <Card
                 cardData={card}
                 onCardClick={onCardClick}
                 key={card._id}
-                deleteButton={cardDeleteButtonClassName}
-                heartButton={cardHeartButtonClassName}
                 onCardLike={() => {
                   onCardLike(card);
                 }}
