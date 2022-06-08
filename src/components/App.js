@@ -7,7 +7,6 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import DeleteCardConfirmationPopup from "./DeleteCardConfirmationPopup";
-import renderLoading from "../utils/renderLoading";
 import { api } from "../utils/api";
 import { CreateUserContext } from "../contexts/CreateUserContext";
 import { CreateCardsContext } from "../contexts/CreateCardsContext";

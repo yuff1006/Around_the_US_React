@@ -1,3 +1,7 @@
+import { useRef } from "react";
+import FormVaidator from "../utils/FormValidator";
+import { settings } from "../utils/constants";
+
 function PopupWithForm({
   name,
   isOpen,
@@ -7,6 +11,13 @@ function PopupWithForm({
   buttonText,
   onSubmit,
 }) {
+  const formRef = useRef();
+  console.log(formRef);
+  const editProfilePopupFormValidator = new FormVaidator(
+    settings,
+    formRef.current
+  );
+  editProfilePopupFormValidator.enableValidator();
   function handleOverLayClose(evt) {
     if (
       evt.target.classList.contains("popup") ||
@@ -28,7 +39,12 @@ function PopupWithForm({
         >
           {title}
         </h2>
-        <form className="popup__form" name={name} onSubmit={onSubmit}>
+        <form
+          className="popup__form"
+          name={name}
+          onSubmit={onSubmit}
+          ref={formRef}
+        >
           {children}
           <button type="submit" className="popup__button" onClick={onSubmit}>
             {buttonText}
