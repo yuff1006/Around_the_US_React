@@ -12,12 +12,12 @@ function PopupWithForm({
   onSubmit,
 }) {
   const formRef = useRef();
-  console.log(formRef);
-  const editProfilePopupFormValidator = new FormVaidator(
-    settings,
-    formRef.current
-  );
-  editProfilePopupFormValidator.enableValidator();
+  // console.log(formRef);
+  // const editProfilePopupFormValidator = new FormVaidator(
+  //   settings,
+  //   formRef.current
+  // );
+  // editProfilePopupFormValidator.enableValidator();
   function handleOverLayClose(evt) {
     if (
       evt.target.classList.contains("popup") ||
