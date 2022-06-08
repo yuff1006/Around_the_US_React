@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Around_the_US_React/static/css/main.a5dc2a9e.css",
-    "main.js": "/Around_the_US_React/static/js/main.c8fb78ae.js",
+    "main.css": "/Around_the_US_React/static/css/main.d8ffc06e.css",
+    "main.js": "/Around_the_US_React/static/js/main.244c1931.js",
     "static/media/Inter-Medium.woff": "/Around_the_US_React/static/media/Inter-Medium.9053572c46aeb4b16caa.woff",
     "static/media/Inter-Black.woff": "/Around_the_US_React/static/media/Inter-Black.c6938660eec019fefd68.woff",
     "static/media/Inter-Regular.woff": "/Around_the_US_React/static/media/Inter-Regular.8c206db99195777c6769.woff",
@@ -17,11 +17,11 @@
     "static/media/profile__edit-icon.svg": "/Around_the_US_React/static/media/profile__edit-icon.8667ac4a523e8fc42e59.svg",
     "static/media/editProfileIcon.svg": "/Around_the_US_React/static/media/editProfileIcon.a086f758840ae814ecde.svg",
     "static/media/profile__add-icon.svg": "/Around_the_US_React/static/media/profile__add-icon.d86bb2edc2f6eadb96b7.svg",
-    "main.a5dc2a9e.css.map": "/Around_the_US_React/static/css/main.a5dc2a9e.css.map",
-    "main.c8fb78ae.js.map": "/Around_the_US_React/static/js/main.c8fb78ae.js.map"
+    "main.d8ffc06e.css.map": "/Around_the_US_React/static/css/main.d8ffc06e.css.map",
+    "main.244c1931.js.map": "/Around_the_US_React/static/js/main.244c1931.js.map"
   },
   "entrypoints": [
-    "static/css/main.a5dc2a9e.css",
-    "static/js/main.c8fb78ae.js"
+    "static/css/main.d8ffc06e.css",
+    "static/js/main.244c1931.js"
   ]
 }
