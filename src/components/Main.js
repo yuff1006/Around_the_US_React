@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Card from "./Card";
-import { CreateUserContext } from "../contexts/CreateUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CreateCardsContext } from "../contexts/CreateCardsContext";
 
 function Main({
@@ -13,7 +13,7 @@ function Main({
 }) {
   const [userInfo, setUserInfo] = useState({});
 
-  const currentUser = useContext(CreateUserContext);
+  const currentUser = useContext(CurrentUserContext);
   const cards = useContext(CreateCardsContext);
 
   useEffect(() => {

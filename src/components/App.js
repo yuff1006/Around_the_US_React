@@ -8,7 +8,7 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import DeleteCardConfirmationPopup from "./DeleteCardConfirmationPopup";
 import { api } from "../utils/api";
-import { CreateUserContext } from "../contexts/CreateUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CreateCardsContext } from "../contexts/CreateCardsContext";
 import { CreateDeletedCardContext } from "../contexts/CreateDeletedCardContext";
 
@@ -179,7 +179,7 @@ function App() {
   return (
     <div className="App">
       <div className="page">
-        <CreateUserContext.Provider value={currentUser}>
+        <CurrentUserContext.Provider value={currentUser}>
           <Header />
           <CreateCardsContext.Provider value={cards}>
             <Main
@@ -224,7 +224,7 @@ function App() {
               buttonState={isButtonStateLoading}
             />
           </CreateDeletedCardContext.Provider>
-        </CreateUserContext.Provider>
+        </CurrentUserContext.Provider>
       </div>
     </div>
   );
