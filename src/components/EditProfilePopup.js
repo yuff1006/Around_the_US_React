@@ -5,9 +5,11 @@ import { CreateUserContext } from "../contexts/CreateUserContext";
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonState }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [isNameValid, setNameValid] = useState(false);
-  const [isAboutValid, setAboutValid] = useState(false);
+  const [isNameValid, setNameValid] = useState(true);
+  const [isAboutValid, setAboutValid] = useState(true);
   const currentUser = useContext(CreateUserContext);
+  const nameInputRef = useRef();
+  const aboutInputRef = useRef();
 
   useEffect(() => {
     setName(currentUser.name ?? "");
@@ -32,16 +34,12 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonState }) {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    if (e.target.checkValidity()) {
-      console.log(e.target.checkValidity());
-      setNameValid(true);
-      setAboutValid(true);
-      onUpdateUser({
-        name,
-        about: description,
-      });
-    }
+    onUpdateUser({
+      name,
+      about: description,
+    });
   }
+
   return (
     <PopupWithForm
       name="profile"
@@ -50,10 +48,11 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonState }) {
       onClose={onClose}
       buttonText={buttonState === false ? "Save" : "Saving..."}
       onSubmit={handleSubmit}
+      buttonState={buttonState}
     >
       <input
         type="text"
-        className="popup__info"
+        className={`popup__info ${isNameValid ? "" : "popup__info_type_error"}`}
         id="popup-name"
         required
         minLength="2"
@@ -61,11 +60,19 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonState }) {
         name="name"
         value={name}
         onChange={handleNameChange}
+        ref={nameInputRef}
       />
-      <span className="popup__error" id="popup-name-error"></span>
+      <span
+        className={`popup__error ${isNameValid ? "" : "popup__error_visible"}`}
+        id="popup-name-error"
+      >
+        {nameInputRef.current?.validationMessage}
+      </span>
       <input
         type="text"
-        className="popup__info"
+        className={`popup__info ${
+          isAboutValid ? "" : "popup__info_type_error"
+        }`}
         id="popup-title"
         required
         minLength="2"
@@ -73,8 +80,14 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, buttonState }) {
         name="about"
         value={description}
         onChange={handleDescriptionChange}
+        ref={aboutInputRef}
       />
-      <span className="popup__error" id="popup-title-error"></span>
+      <span
+        className={`popup__error ${isAboutValid ? "" : "popup__error_visible"}`}
+        id="popup-title-error"
+      >
+        {aboutInputRef.current?.validationMessage}
+      </span>
     </PopupWithForm>
   );
 }

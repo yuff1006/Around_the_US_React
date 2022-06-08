@@ -8,6 +8,7 @@ function PopupWithForm({
   children,
   buttonText,
   onSubmit,
+  buttonState,
 }) {
   const formRef = useRef();
   const [isFormValid, setFormValid] = useState(false);
@@ -48,7 +49,7 @@ function PopupWithForm({
             type="submit"
             className="popup__button"
             onClick={onSubmit}
-            disabled={!isFormValid}
+            disabled={!isFormValid || buttonState}
           >
             {buttonText}
           </button>

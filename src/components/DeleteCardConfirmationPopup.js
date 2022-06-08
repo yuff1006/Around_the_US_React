@@ -20,6 +20,7 @@ function DeleteCardConfirmationPopup({
       onClose={onClose}
       buttonText={buttonState === false ? "Yes" : "Saving..."}
       onSubmit={handleSubmit}
+      buttonState={buttonState}
     />
   );
 }

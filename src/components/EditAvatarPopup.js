@@ -4,6 +4,7 @@ import { CreateUserContext } from "../contexts/CreateUserContext";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonState }) {
   const [avatar, setAvatar] = useState("");
+  const [isAvatarValid, setAvatarValid] = useState(true);
   const currentUser = useContext(CreateUserContext);
   const avatarRef = useRef(avatar);
 
@@ -13,6 +14,11 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonState }) {
 
   function handleAvatarChange(e) {
     setAvatar(e.target.value);
+    if (e.target.checkValidity()) {
+      setAvatarValid(true);
+    } else {
+      setAvatarValid(false);
+    }
   }
   function handleSubmit(e) {
     e.preventDefault();
@@ -28,9 +34,12 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonState }) {
       onClose={onClose}
       buttonText={buttonState === false ? "Save" : "Saving..."}
       onSubmit={handleSubmit}
+      buttonState={buttonState}
     >
       <input
-        className="popup__info"
+        className={`popup__info ${
+          isAvatarValid ? "" : "popup__info_type_error"
+        }`}
         id="popup-profile-pic-url"
         placeholder="https://somewebsite.com/someimage.jpg"
         required
@@ -40,7 +49,14 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, buttonState }) {
         value={avatar}
         ref={avatarRef}
       />
-      <span className="popup__error" id="popup-profile-pic-url-error"></span>
+      <span
+        className={`popup__error ${
+          isAvatarValid ? "" : "popup__error_visible"
+        }`}
+        id="popup-profile-pic-url-error"
+      >
+        {avatarRef.current?.validationMessage}
+      </span>
     </PopupWithForm>
   );
 }

@@ -8,6 +8,9 @@ An Instagram-like app that displays user's pictures and places, with functionali
 
 1. React Functional Components with Hooks
 2. Make API calls to the server for pulling and pushing all data on the website
+3. Form Validation using React hooks
+4. Loading UI
+5. Add, Delete, Edit, Like interactions with cards and profiles
 
 ## Technologies and Standards Used
 
