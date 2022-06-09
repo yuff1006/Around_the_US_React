@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { CreateCardsContext } from "../contexts/CreateCardsContext";
+import { CardsContext } from "../contexts/CardsContext";
 
 function Main({
   onEditAvatarClick,
@@ -14,7 +14,7 @@ function Main({
   const [userInfo, setUserInfo] = useState({});
 
   const currentUser = useContext(CurrentUserContext);
-  const cards = useContext(CreateCardsContext);
+  const cards = useContext(CardsContext);
 
   useEffect(() => {
     setUserInfo({
@@ -62,21 +62,19 @@ function Main({
       </section>
       <section className="cards">
         <ul className="cards__container">
-          {cards.map((card) => {
-            return (
-              <Card
-                cardData={card}
-                onCardClick={onCardClick}
-                key={card._id}
-                onCardLike={() => {
-                  onCardLike(card);
-                }}
-                onCardDelete={() => {
-                  onCardDelete(card);
-                }}
-              />
-            );
-          })}
+          {cards.map((card) => (
+            <Card
+              cardData={card}
+              onCardClick={onCardClick}
+              key={card._id}
+              onCardLike={() => {
+                onCardLike(card);
+              }}
+              onCardDelete={() => {
+                onCardDelete(card);
+              }}
+            />
+          ))}
         </ul>
       </section>
     </main>

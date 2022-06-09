@@ -40,7 +40,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, buttonState }) {
     >
       <input
         type="text"
-        className={`popup__info ${isNameValid ? "" : "popup__info_type_error"}`}
+        className={`popup__info ${!isNameValid && "popup__info_type_error"}`}
         id="popup-place"
         placeholder="Title"
         required
@@ -52,13 +52,13 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, buttonState }) {
         ref={nameInputRef}
       />
       <span
-        className={`popup__error ${isNameValid ? "" : "popup__error_visible"}`}
+        className={`popup__error ${!isNameValid && "popup__error_visible"}`}
         id="popup-place-error"
       >
         {nameInputRef.current?.validationMessage}
       </span>
       <input
-        className={`popup__info ${isLinkValid ? "" : "popup__info_type_error"}`}
+        className={`popup__info ${!isLinkValid && "popup__info_type_error"}`}
         id="popup-url"
         placeholder="Image Link"
         required
@@ -69,7 +69,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, buttonState }) {
         ref={linkInputRef}
       />
       <span
-        className={`popup__error ${isLinkValid ? "" : "popup__error_visible"}`}
+        className={`popup__error ${!isLinkValid && "popup__error_visible"}`}
         id="popup-url-error"
       >
         {linkInputRef.current?.validationMessage}

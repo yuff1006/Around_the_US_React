@@ -1,5 +1,5 @@
 import PopupWithForm from "./PopupWithForm";
-import { CreateDeletedCardContext } from "../contexts/CreateDeletedCardContext";
+import { DeletedCardContext } from "../contexts/DeletedCardContext";
 import { useContext } from "react";
 function DeleteCardConfirmationPopup({
   isOpen,
@@ -7,7 +7,7 @@ function DeleteCardConfirmationPopup({
   onConfirmation,
   buttonState,
 }) {
-  const deletedCard = useContext(CreateDeletedCardContext);
+  const deletedCard = useContext(DeletedCardContext);
   function handleSubmit(e) {
     e.preventDefault();
     onConfirmation(deletedCard);

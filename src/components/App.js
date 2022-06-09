@@ -9,8 +9,8 @@ import AddPlacePopup from "./AddPlacePopup";
 import DeleteCardConfirmationPopup from "./DeleteCardConfirmationPopup";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { CreateCardsContext } from "../contexts/CreateCardsContext";
-import { CreateDeletedCardContext } from "../contexts/CreateDeletedCardContext";
+import { CardsContext } from "../contexts/CardsContext";
+import { DeletedCardContext } from "../contexts/DeletedCardContext";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -181,7 +181,7 @@ function App() {
       <div className="page">
         <CurrentUserContext.Provider value={currentUser}>
           <Header />
-          <CreateCardsContext.Provider value={cards}>
+          <CardsContext.Provider value={cards}>
             <Main
               onEditProfileClick={handleEditProfileClick}
               onAddPlaceClick={handleAddPlaceClick}
@@ -190,7 +190,7 @@ function App() {
               onCardLike={handleLikeClick}
               onCardDelete={handleConfirmation}
             />
-          </CreateCardsContext.Provider>
+          </CardsContext.Provider>
           <Footer />
           <ImagePopup
             name="picture"
@@ -216,14 +216,14 @@ function App() {
             onAddPlaceSubmit={handleAddPlaceSubmit}
             buttonState={isButtonStateLoading}
           />
-          <CreateDeletedCardContext.Provider value={deletedCard}>
+          <DeletedCardContext.Provider value={deletedCard}>
             <DeleteCardConfirmationPopup
               isOpen={isDeleteCardConfirmationPopupOpen}
               onClose={closeAllPopups}
               onConfirmation={handleCardDelete}
               buttonState={isButtonStateLoading}
             />
-          </CreateDeletedCardContext.Provider>
+          </DeletedCardContext.Provider>
         </CurrentUserContext.Provider>
       </div>
     </div>
